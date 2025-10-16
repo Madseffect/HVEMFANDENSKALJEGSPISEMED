@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Name and Email Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Name and Email Selector</h1>
+        <button onclick="selectRandomPerson()">VÆLG EN TILFÆLDIG KOLLEGA TIL FROKOST!</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+      const people = [
+    { name: "Agnete Hjuler Dueholm", email: "ahd@finansforbundet.dk" },
+    { name: "Aleksander Lykke-Kjeldsen", email: "aly@finansforbundet.dk" },
+    { name: "Alexander Haslund", email: "axh@finansforbundet.dk" },
+    { name: "Alexander Hohle", email: "arh@finansforbundet.dk" },
+    { name: "Allan Holm", email: "alh@finansforbundet.dk" },
+    { name: "Allan Morell Nielsen", email: "amn@finansforbundet.dk" },
+    { name: "Amalie Helløv", email: "ahe@finansforbundet.dk" },
+    { name: "Amira Leila Bada", email: "ALB@finansforbundet.dk" },
+    { name: "Anders Horslund Boeskov", email: "abo@finansforbundet.dk" },
+    { name: "Anders Lyager Olsen", email: "alo@finansforbundet.dk" },
+    { name: "Andreas Bøye Steinberg", email: "abs@finansforbundet.dk" },
+    { name: "Anette Fischer", email: "af@finansforbundet.dk" },
+    { name: "Anna Ravn-Hansen", email: "ara@finansforbundet.dk" },
+    { name: "Anna-Mette Ettrup Farcinsen", email: "aef@finansforbundet.dk" },
+    { name: "Anne-Marie Anø", email: "am@finansforbundet.dk" },
+    { name: "Annemarie Friis Persson", email: "afp@finansforbundet.dk" },
+    { name: "Annemette S. Rønnow", email: "aro@finansforbundet.dk" },
+    { name: "Annette Holm", email: "aho@finansforbundet.dk" },
+    { name: "Annette Mikkelsen", email: "ami@finansforbundet.dk" },
+    { name: "Astrid Østergaard Andersen", email: "aoa@finansforbundet.dk" },
+    { name: "Bente Kjær Koch", email: "bkk@finansforbundet.dk" },
+    { name: "Berit Lassen", email: "bla@finansforbundet.dk" },
+    { name: "Birgit Kjeldsen", email: "bkj@finansforbundet.dk" },
+    { name: "Birgitte Aabo", email: "baa@finansforbundet.dk" },
+    { name: "Briddi Escherich", email: "bes@finansforbundet.dk" },
+    { name: "Camilla Bylling Lang", email: "cbl@finansforbundet.dk" },
+    { name: "Camilla Hedager Nielsen", email: "chn@finansforbundet.dk" },
+    { name: "Camilla Rømer Petersen", email: "cpe@finansforbundet.dk" },
+    { name: "Camilla Striib Wollny-Jensen", email: "csj@finansforbundet.dk" },
+    { name: "Camilla Wyrna Hansen", email: "cwh@finansforbundet.dk" },
+    { name: "Charlotte Lindgren", email: "cli@finansforbundet.dk" },
+    { name: "Charlotte Vaarst Andersen", email: "cva@finansforbundet.dk" },
+    { name: "Christian Helth Louby", email: "chl@finansforbundet.dk" },
+    { name: "Christian Skou Rasmussen", email: "cra@finansforbundet.dk" },
+    { name: "Christina Madsen", email: "chm@finansforbundet.dk" },
+    { name: "Christine Bækgaard Asmussen", email: "ca@finansforbundet.dk" },
+    { name: "Christine Pihlkjær Jensen", email: "cpj@finansforbundet.dk" },
+    { name: "Cicilie Dam", email: "cda@finansforbundet.dk" },
+    { name: "Cristina Puig Petersen", email: "cpp@finansforbundet.dk" },
+    { name: "Daniel Dalum-Larsen", email: "ddl@finansforbundet.dk" },
+    { name: "Ditte Vibe Petersen", email: "dpe@finansforbundet.dk" },
+    { name: "Dorte Klosterskov Freese", email: "dkf@finansforbundet.dk" },
+    { name: "Elisabeth Mosbæk Valentin", email: "emv@finansforbundet.dk" },
+    { name: "Evy Grønvall", email: "eg@finansforbundet.dk" },
+    { name: "Felicia Hvidberg Heinicke", email: "fhh@finansforbundet.dk" },
+    { name: "Freja Thorbech", email: "fth@finansforbundet.dk" },
+    { name: "Gosia Margarethe Thomsen", email: "gmt@finansforbundet.dk" },
+    { name: "Helene Bukbjerg Krog", email: "hbu@finansforbundet.dk" },
+    { name: "Helle Kierkegaard", email: "hki@finansforbundet.dk" },
+    { name: "Helle Rasmussen", email: "hr@finansforbundet.dk" },
+    { name: "Henning Kristensen", email: "hk@finansforbundet.dk" },
+    { name: "Ida Juhl Dittler", email: "ijd@finansforbundet.dk" },
+    { name: "Jakob Schmidt-Andersen", email: "jsa@finansforbundet.dk" },
+    { name: "Jan Jeppesen", email: "jj@finansforbundet.dk" },
+    { name: "Jane Krontoft", email: "jk@finansforbundet.dk" },
+    { name: "Jeanne Mylund Jeppson", email: "jmj@finansforbundet.dk" },
+    { name: "Jeanne Schramm Knudsen", email: "jkn@finansforbundet.dk" },
+    { name: "Jens Christian Østergaard", email: "jco@finansforbundet.dk" },
+    { name: "Jens Jakob Legarth", email: "jjl@finansforbundet.dk" },
+    { name: "Jeppe Thulstrup", email: "jtu@finansforbundet.dk" },
+    { name: "Jesper Bo Nielsen", email: "jn@finansforbundet.dk" },
+    { name: "Jesper Randbæk Christensen", email: "jrc@finansforbundet.dk" },
+    { name: "Jette Højer Nielsen", email: "jhn@finansforbundet.dk" },
+    { name: "Jette Madsen", email: "jma@finansforbundet.dk" },
+    { name: "Johanne Marie Danielsen Hansen", email: "jda@finansforbundet.dk" },
+    { name: "John Holdt", email: "jh@finansforbundet.dk" },
+    { name: "Johnny Swensson", email: "jsw@finansforbundet.dk" },
+    { name: "Jonas Svava Iversen", email: "jiv@finansforbundet.dk" },
+    { name: "Josefine Boel Rasmussen", email: "jbr@finansforbundet.dk" },
+    { name: "Josefine Jenny Gaard", email: "jjg@finansforbundet.dk" },
+    { name: "Karina Just", email: "kju@finansforbundet.dk" },
+    { name: "Karsten Bøjesen", email: "kba@finansforbundet.dk" },
+    { name: "Kasper Christian August Kryger", email: "kck@finansforbundet.dk" },
+    { name: "Katrine Skovbjerg", email: "ksk@finansforbundet.dk" },
+    { name: "Kester Lzra Nelson", email: "KLN@finansforbundet.dk" },
+    { name: "Kian Ahranjani", email: "kia@finansforbundet.dk" },
+    { name: "Kim Ganderup Hansen", email: "kgh@finansforbundet.dk" },
+    { name: "Klara Juel Ross", email: "kjb@finansforbundet.dk" },
+    { name: "Klaus Mosekjær Madsen", email: "kmm@finansforbundet.dk" },
+    { name: "Kristian Lind", email: "kl@finansforbundet.dk" },
+    { name: "Kristina Sehested", email: "kse@finansforbundet.dk" },
+    { name: "Kristine Blom Hoffbeck", email: "kbh@finansforbundet.dk" },
+    { name: "Kristoffer Fisker", email: "kfi@finansforbundet.dk" },
+    { name: "Lars Skovbjerg Veale-Madsen", email: "lbm@finansforbundet.dk" },
+    { name: "Laura Vincentz Dahl Poulsen", email: "lpo@finansforbundet.dk" },
+    { name: "Linda Kabels", email: "lka@finansforbundet.dk" },
+    { name: "Line Steenberg", email: "lis@finansforbundet.dk" },
+    { name: "Lisa Maria Dalby", email: "lik@finansforbundet.dk" },
+    { name: "Lisbeth Hansen", email: "lha@finansforbundet.dk" },
+    { name: "Lise Sørensen", email: "ls@finansforbundet.dk" },
+    { name: "Lone Bøgelund", email: "lbo@finansforbundet.dk" },
+    { name: "Louise Andrup Suhr", email: "las@finansforbundet.dk" },
+    { name: "Louise Zack Nielsen", email: "lzn@finansforbundet.dk" },
+    { name: "Lucia Lyng Velasco", email: "lve@finansforbundet.dk" },
+    { name: "Lucina Søgaard-Lidell", email: "lsl@finansforbundet.dk" },
+    { name: "Lærke Hørbye Christiansen", email: "lhc@finansforbundet.dk" },
+    { name: "Mads Valvik-Kristensen", email: "mkr@finansforbundet.dk" },
+    { name: "Mai Weber Juul", email: "mwj@finansforbundet.dk" },
+    { name: "Maja Tini Jensen", email: "mtj@finansforbundet.dk" },
+    { name: "Majbritt Sandberg", email: "msa@finansforbundet.dk" },
+    { name: "Malene Aage Eliassen", email: "mel@finansforbundet.dk" },
+    { name: "Maria Volf Lindhardt", email: "mvo@finansforbundet.dk" },
+    { name: "Marianne Kjær", email: "mak@finansforbundet.dk" },
+    { name: "Marie Kristin Kvernrød", email: "mkv@finansforbundet.dk" },
+    { name: "Mathias Klausen", email: "mkl@finansforbundet.dk" },
+    { name: "Mathilde Brøgger Skytte", email: "mbs@finansforbundet.dk" },
+    { name: "Maud Gunvi Jeppesen", email: "mje@finansforbundet.dk" },
+    { name: "Mette Bond", email: "mbo@finansforbundet.dk" },
+    { name: "Mette Bruun", email: "mbr@finansforbundet.dk" },
+    { name: "Mette Hjøllund Schousboe", email: "mhs@finansforbundet.dk" },
+    { name: "Mette Lauth", email: "mla@finansforbundet.dk" },
+    { name: "Michael Budolfsen", email: "mb@finansforbundet.dk" },
+    { name: "Michael Dreyer", email: "mdr@finansforbundet.dk" },
+    { name: "Michael Juel Mortensen", email: "mj@finansforbundet.dk" },
+    { name: "Michelle Holmegaard", email: "mho@finansforbundet.dk" },
+    { name: "Michelle Lindholm", email: "mlu@finansforbundet.dk" },
+    { name: "Mikkel Grønvold Lilbæk", email: "mgl@finansforbundet.dk" },
+    { name: "Mikkel Holm Norking", email: "mno@finansforbundet.dk" },
+    { name: "Monica Christiansen", email: "mc@finansforbundet.dk" },
+    { name: "Morten Stenaa Ottesen", email: "mso@finansforbundet.dk" },
+    { name: "Natascha Lauenborg Hjelm", email: "nln@finansforbundet.dk" },
+    { name: "Niels Jensen", email: "nj@finansforbundet.dk" },
+    { name: "Nimra Fakhri", email: "nfa@finansforbundet.dk" },
+    { name: "Nina Christine Vizi Hornsleth", email: "nch@finansforbundet.dk" },
+    { name: "Olivera Nancovski", email: "ona@finansforbundet.dk" },
+    { name: "Oscar Brønd", email: "obr@finansforbundet.dk" },
+    { name: "Peder Lysgaard", email: "ply@finansforbundet.dk" },
+    { name: "Peter Kamper Vendrup", email: "pkv@finansforbundet.dk" },
+    { name: "Peter Rønberg Hansen", email: "prh@finansforbundet.dk" },
+    { name: "Pia Bang Hansen", email: "ph@finansforbundet.dk" },
+    { name: "Preben Bensen", email: "pb@finansforbundet.dk" },
+    { name: "Rasmus Boysen Schmidt", email: "rsc@finansforbundet.dk" },
+    { name: "Rasmus Breum Mariegaard", email: "rbm@finansforbundet.dk" },
+    { name: "Rasmus Nørgaard Høgh", email: "rnh@finansforbundet.dk" },
+    { name: "Ronja Søndergaard", email: "ros@finansforbundet.dk" },
+    { name: "Sally Lakolk", email: "sjl@finansforbundet.dk" },
+    { name: "Sandie de Fries", email: "sfr@finansforbundet.dk" },
+    { name: "Sanne Krog Lund", email: "skl@finansforbundet.dk" },
+    { name: "Sarah Grøn", email: "sgr@finansforbundet.dk" },
+    { name: "Sascha Rasmussen", email: "sr@finansforbundet.dk" },
+    { name: "Sebastien Bigandt", email: "sbi@finansforbundet.dk" },
+    { name: "Shanka Shawkat", email: "ssh@finansforbundet.dk" },
+    { name: "Signe Bisbjerg", email: "sib@finansforbundet.dk" },
+    { name: "Signe Bjørg Lyck", email: "sly@finansforbundet.dk" },
+    { name: "Signe Møller Johansen", email: "smj@finansforbundet.dk" },
+    { name: "Sille Louise Beyer Wiberg", email: "sbw@finansforbundet.dk" },
+    { name: "Stefan Kokko", email: "sk@finansforbundet.dk" },
+    { name: "Steven Vallik", email: "sv@finansforbundet.dk" },
+    { name: "Sunitha Senanayake", email: "sse@finansforbundet.dk" },
+    { name: "Susanne Grantzau", email: "SG@finansforbundet.dk" },
+    { name: "Susanne Ilsøe", email: "si@finansforbundet.dk" },
+    { name: "Søren Lambert Mühldorff", email: "slm@finansforbundet.dk" },
+    { name: "Terese Dahl Weischer", email: "tda@finansforbundet.dk" },
+    { name: "Thure Heltov", email: "the@finansforbundet.dk" },
+    { name: "Tina Belsø", email: "tb@finansforbundet.dk" },
+    { name: "Tina Brinchmann Jensen", email: "tje@finansforbundet.dk" },
+    { name: "Tine Schjødt-Pedersen", email: "tsc@finansforbundet.dk" },
+    { name: "Tobias Gylling Konradsen", email: "tgk@finansforbundet.dk" },
+    { name: "Torben Folke Månsson", email: "tfm@finansforbundet.dk" },
+    { name: "Ulla Snede", email: "USN@finansforbundet.dk" },
+    { name: "Unni Ågren", email: "us@finansforbundet.dk" },
+    { name: "Zishan Harron", email: "zha@finansforbundet.dk" }
+];
+
+        // function selectRandomPerson() {
+        //     const randomIndex = Math.floor(Math.random() * people.length);
+        //     const randomPerson = people[randomIndex];
+        //     document.getElementById('result').textContent = `Selected: ${randomPerson.name} (${randomPerson.email})`;
+        // }
+         function selectRandomPerson() {
+            const randomIndex = Math.floor(Math.random() * people.length);
+            const randomPerson = people[randomIndex];
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `Din frokostkollega er: <a href="mailto:${randomPerson.email}">${randomPerson.name} (${randomPerson.email})</a>`;
+        }
+    </script>
+</body>
+</html>
